@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  laravel:
+    build:
+      context: ./multistagebuilding
+      dockerfile: Dockerfile.prod
+    image: igorsouzadocker/laravel:prod
+    container_name: laravel
+    networks:
+      - laranet
+    
+  nginx:
+    image: igorsouzadocker/nginx:prod
+    build:
+      context: ./nginxHUB
+      dockerfile: Dockerfile.prod
+    container_name: nginx
+    networks:
+      - laranet
+    ports:
+      - "8080:80"
+
+networks:
+  laranet:
+    driver: bridge
